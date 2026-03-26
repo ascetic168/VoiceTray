@@ -2,6 +2,10 @@
 
 > 跨平台系統托盤語音輸入工具 - 使用騰訊雲 ASR 將語音即時轉換為文字
 
+
+
+https://github.com/user-attachments/assets/afe1d48e-d8ef-4901-ab7d-bd591927eafc
+
 ## 專案狀態
 
 ✅ **已發布 v0.2.2** - 並發錄音支援，優化連續錄音體驗。
