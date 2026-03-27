@@ -1,14 +1,10 @@
 # Voice Input Tray
 
-> 跨平台系統托盤語音輸入工具 - 使用騰訊雲 ASR 將語音即時轉換為文字
-
-
-
-https://github.com/user-attachments/assets/afe1d48e-d8ef-4901-ab7d-bd591927eafc
+> 跨平台系統托盤語音輸入工具 - 支援騰訊雲 ASR 及 Google Gemini 多引擎語音辨識
 
 ## 專案狀態
 
-✅ **已發布 v0.2.2** - 並發錄音支援，優化連續錄音體驗。
+✅ **已發布 v0.2.3** - 新增 Google Gemini 多模態語音辨識，修復設定持久化問題。
 
 ## 為什麼使用這個程式
 
@@ -24,21 +20,42 @@ https://github.com/user-attachments/assets/afe1d48e-d8ef-4901-ab7d-bd591927eafc
 
 您再也不會看到「沒有錄到聲音」之類的訊息——從您按下的那一刻起，錄音就已經在進行了；即便取消錄音，也是安靜的處理，不會干擾使用者。
 
-### 3. 騰訊雲自動標點，反應速度更快
-內建騰訊雲的自動標點符號功能，識別結果直接帶上標點，無需額外的 LLM 後處理，大幅提升回應速度。
+### 3. 多引擎支援，AI 加持更智能
+支援騰訊雲 ASR 及 Google Gemini 兩種辨識引擎，並可自訂優先順序自動切換。Gemini 引擎利用多模態 AI 能力，自動添加標點符號並移除語氣詞，讓輸出更乾淨。
 
 ## 功能特色
 
 - **跨平台支援** - 支援 Windows、macOS、Linux
+- **多引擎 ASR** - 支援騰訊雲 ASR 及 Google Gemini 多模態語音辨識
+- **Gemini AI 增強** - 自動標點符號、移除語氣詞、支援多語言
+- **自動 Fallback** - 設定優先順序，前一引擎失敗自動嘗試下一個
 - **GUI 設置界面** - 友好的圖形設置窗口
 - **快捷鍵觸發** - 按住 Ctrl 鍵即可開始錄音，放開自動識別並貼上
 - **系統托盤運行** - 背景運行，不干擾日常工作流程
-- **即時語音識別** - 使用騰訊雲 ASR 引擎，準確度高
-- **自動標點符號** - 輸出結果自動帶上標點符號，無需額外 LLM 處理，速度更快
-- **多引擎支援** - 支援多種 ASR 引擎（普通話、粵語、英文等），可透過設置窗口切換
-- **繁簡轉換** - 自動根據系統地區轉換中文繁簡體
+- **繁簡轉換** - 自動根據系統地區轉換中文繁簡體（Gemini 可指定輸出語言）
+- **多語言 UI** - 支援繁體中文、简体中文、English 介面
 - **開機自啟** - 支援系統開機自動啟動功能
 - **並發錄音** - 在 ASR 處理期間可繼續錄音，結果按順序依次貼上
+
+## 支援的 ASR 引擎
+
+### Google Gemini（推薦）
+- **gemini-2.5-flash** - 多模態 AI 語音辨識（推薦）
+- **gemini-2.5-flash-lite** - 輕量版，速度更快
+- 特色：自動標點符號、移除語氣詞、支援多語言
+- 憑證：Google AI Studio API Key
+- [取得 Gemini API Key](https://aistudio.google.com/apikey)
+
+### 騰訊雲 ASR
+| 引擎代碼 | 說明 |
+|---------|------|
+| `16k_zh` | 普通話（預設） |
+| `16k_zh_video` | 普通話（視頻場景） |
+| `16k_en` | 英文 |
+| `16k_yue` | 粵語 |
+| `16k_ca` | 川渝方言 |
+- 憑證：騰訊雲 Secret ID / Secret Key
+- [取得騰訊雲 API 憑證](https://console.cloud.tencent.com/cam/capi)
 
 ## 系統需求
 
@@ -46,7 +63,7 @@ https://github.com/user-attachments/assets/afe1d48e-d8ef-4901-ab7d-bd591927eafc
 - **macOS**: macOS 10.15+ (Catalina 或更新版本)
 - **Linux**: 主流發行版 (Ubuntu、Fedora 等)
 - 麥克風設備
-- 騰訊雲 API 憑證
+- 至少一種 ASR 引擎的 API 憑證
 
 ## 下載與安裝
 
@@ -60,82 +77,39 @@ https://github.com/user-attachments/assets/afe1d48e-d8ef-4901-ab7d-bd591927eafc
 
 目前需要自行編譯，請參考下方的「從原始碼編譯」章節。
 
-### 取得騰訊雲 API 憑證
+### 取得 API 憑證
 
-程式需要使用騰訊雲 ASR（語音識別）服務，因此需要先取得 API 憑證。
+#### Google Gemini API Key（推薦）
 
-#### 步驟一：註冊騰訊雲帳號
+1. 前往 [Google AI Studio](https://aistudio.google.com/)
+2. 登入 Google 帳號
+3. 點擊「Get API Key」取得金鑰
+
+#### 騰訊雲 API 憑證
 
 1. 前往 [騰訊雲官網](https://cloud.tencent.com/) 註冊帳號
-2. 支援以下註冊方式：
-   - 微信掃碼註冊（推薦，最快）
-   - 手機號碼註冊
-   - 電子郵件註冊
-
-#### 步驟二：完成實名認證
-
-根據中國大陸法規，使用騰訊雲服務需要完成實名認證：
-
-- **個人認證**：微信已實名認證時，透過微信掃碼即可。
-- **企業認證**：需要營業執照或公司登記證明
+2. 完成實名認證
+3. 開通語音識別服務
+4. 前往 [雲 API 密鑰控制台](https://console.cloud.tencent.com/cam/capi) 建立 Secret ID / Secret Key
 
 > 💡 **提示**：如果不想進行中國大陸實名認證，可以使用 [騰訊雲國際版](https://www.tencentcloud.com/)，註冊流程更簡單。
 
-#### 步驟三：開通語音識別服務
-
-1. 登入騰訊雲控制台
-2. 搜索或前往「語音識別」產品頁面
-3. 開通語音識別服務（通常有免費額度可供測試）
-
-截至撰稿為止，騰訊雲每個月都會送免費資源，對於個人來說相當夠用。測試的結果顯示，跨境可以使用非流式的呼叫。
-
-#### 步驟四：取得 API 密鑰（Secret ID 和 Secret Key）
-
-1. 前往 **[雲 API 密鑰控制台](https://console.cloud.tencent.com/cam/capi)**
-2. 點擊「**新建密鑰**」按鈕
-3. 系統會生成一對密鑰：
-   - **SecretId**：類似 `AKIDxxxxxxxxxxxxxxxxxx`
-   - **SecretKey**：類似 `xxxxxxxxxxxxxxxxxx`
-4. ⚠️ **重要**：SecretKey 只在創建時顯示一次，請立即複製保存！
-   - 如果遺失 SecretKey，無法再次查看，只能重新創建新的密鑰
-
-**相關連結：**
-- [雲 API 密鑰控制台](https://console.cloud.tencent.com/cam/capi)
-- [如何取得雲 API 密鑰 - 腾讯云文档](https://cloud.tencent.com/document/product/598/40489)
-- [騰訊雲實名認證指引](https://cloud.tencent.com/document/product/378/10496)
-
 ### 設置 API 憑證
 
-安裝完成後，右鍵點擊系統托盤中的藍色麥克風圖示，選擇「設置」，在設置窗口中輸入您的騰訊雲 API 憑證。
+安裝完成後，右鍵點擊系統托盤中的藍色麥克風圖示，選擇「設置」，在設置窗口中輸入 API 憑證。
 
-或者，您也可以將 API 憑證設置為系統環境變數：
+也可使用環境變數：
 
-#### 方法一：使用 GUI 設置
+| 變數名稱 | 說明 |
+|---------|------|
+| `GEMINI_API_KEY` | Google Gemini API Key |
+| `TENCENTCLOUD_SECRET_ID` | 騰訊雲 Secret ID |
+| `TENCENTCLOUD_SECRET_KEY` | 騰訊雲 Secret Key |
 
-1. 按 `Win + R`，輸入 `sysdm.cpl` 並按下 Enter
-2. 切換到「進階」分頁，點擊「環境變數」按鈕
-3. 在「使用者變數」或「系統變數」區域點擊「新增」
-4. 新增以下兩個變數：
-
-   | 變數名稱 | 變數值 |
-   |---------|-------|
-   | `TENCENTCLOUD_SECRET_ID` | 您的 Secret ID |
-   | `TENCENTCLOUD_SECRET_KEY` | 您的 Secret Key |
-
-5. 點擊「確定」儲存設定
-
-#### 方法二：使用命令列設置
-
-**設定使用者變數（推薦）：**
 ```powershell
-setx TENCENTCLOUD_SECRET_ID "your_secret_id_here"
-setx TENCENTCLOUD_SECRET_KEY "your_secret_key_here"
-```
-
-**設定系統變數（需要管理員權限）：**
-```powershell
-setx TENCENTCLOUD_SECRET_ID "your_secret_id_here" /M
-setx TENCENTCLOUD_SECRET_KEY "your_secret_key_here" /M
+setx GEMINI_API_KEY "your_gemini_api_key"
+setx TENCENTCLOUD_SECRET_ID "your_secret_id"
+setx TENCENTCLOUD_SECRET_KEY "your_secret_key"
 ```
 
 > **注意：** 設定環境變數後需要重新啟動程式才能生效。
@@ -164,43 +138,16 @@ setx TENCENTCLOUD_SECRET_KEY "your_secret_key_here" /M
 - **在 2 秒內按其他鍵**（如 C、V）→ 自動取消錄音，不影響 Ctrl+C、Ctrl+V 等快捷鍵操作
 - **超過 2 秒放開 Ctrl** → 進行語音識別
 
-這個設計讓您可以在不影響日常快捷鍵操作的情況下，隨時使用語音輸入功能。
-
-### 托盤選單功能
-
-右鍵點擊托盤圖示可顯示選單：
-
-- **設置** - 開啟設置窗口（API 憑證、引擎選擇、簡繁轉換等）
-- **結束** - 退出程式
-
 ### 設置窗口
 
 通過設置窗口可以配置：
 
-- **API 憑證** - 輸入騰訊雲 Secret ID 和 Secret Key
-- **辨識引擎** - 選擇 ASR 引擎（普通話、普通話（視頻）、英文、粵語、川渝方言）
+- **Provider 優先順序** - 拖曳調整引擎優先順序，失敗自動 Fallback
+- **API 憑證** - 各引擎的 API 憑證輸入
+- **模型選擇** - 各引擎可選的模型
 - **繁簡轉換** - 自動檢測、強制正體、不轉換
-
-### 支援的 ASR 引擎
-
-| 引擎代碼 | 說明 |
-|---------|------|
-| `16k_zh` | 普通話（預設） |
-| `16k_zh_video` | 普通話（視頻場景） |
-| `16k_en` | 英文 |
-| `16k_yue` | 粵語 |
-| `16k_ca` | 川渝方言 |
-
-### 簡繁轉換模式
-
-| 模式 | 說明 |
-|------|------|
-| `auto` | **預設**，自動檢測系統地區 |
-| | - 繁體地區：轉換為正體中文 |
-| | - 簡體地區：不轉換，維持簡體 |
-| | - 非中文地區：轉換為正體中文 |
-| `traditional` | 強制將辨識結果轉換為正體中文（台灣用詞） |
-| `none` | 保持原始辨識結果，不進行轉換 |
+- **UI 語言** - 繁體中文、简体中文、English
+- **熱鍵** - Ctrl、Ctrl+Win、Ctrl+Shift 等
 
 ## 開機自動啟動
 
@@ -216,16 +163,6 @@ setx TENCENTCLOUD_SECRET_KEY "your_secret_key_here" /M
 **方法二：手動設置**
 1. 按 `Win + R`，輸入 `shell:startup`
 2. 將程式捷徑移動到開啟的資料夾
-
-### macOS / Linux
-
-目前需要通過系統設置或手動添加啟動項：
-
-**macOS:**
-- 系統設置 → 一般 → 登入項 → 添加程式
-
-**Linux:**
-- 複製 `.desktop` 文件到 `~/.config/autostart/` 目錄
 
 ## 從原始碼編譯
 
@@ -262,20 +199,22 @@ npm run tauri build
 A: 請檢查 API 憑證是否正確設定。可通過設置窗口或環境變數設置。
 
 **Q: 無法錄音？**
-A: 請確認系統有可用的麥克風設備，且應用程式有權限存取。
+A: 請確認系統有可用的麥克風設備，且 Windows 設定 > 隱私權 > 麥克風已啟用。
 
-**Q: 識別結果不正確？**
-A: 嘗試切換不同的 ASR 引擎，或在安靜環境下使用。
+**Q: Gemini 辨識結果不正確？**
+A: 確認已設定正確的 API Key，並在設置中選擇 gemini-2.5-flash 模型。
+
+**Q: 設定保存後重啟丟失？**
+A: v0.2.3 已修復設定持久化問題，請更新至最新版本。
 
 **Q: 如何查看詳細執行訊息？**
-A: 啟動程式時加上 `--debug` 參數可顯示控制台輸出：
-- Windows: `Voice Input Tray.exe --debug`
-- 開發模式: `npm run tauri:dev -- --debug`
+A: 啟動程式時加上 `--debug` 參數，debug log 會寫入 exe 同目錄的 `voice_input_debug.log`。
 
 ## 版本資訊
 
 | 版本 | 發布日期 | 變更說明 |
 |------|----------|----------|
+| v0.2.3 | 2026-03-27 | 新增 Google Gemini 多模態語音辨識，修復設定持久化，修復 Provider 模型覆寫問題 |
 | v0.2.2 | 2026-03-26 | 並發錄音支援，修復 Ctrl+V 衝突，優化連續錄音體驗 |
 | v0.2.1 | 2026-03-25 | 修復視窗最大化狀態丟失問題 |
 | v0.2.0 | 2026-03-24 | Tauri v2 跨平台版本，GUI 設置界面，開機自啟功能 |
