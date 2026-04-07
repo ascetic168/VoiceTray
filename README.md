@@ -1,246 +1,139 @@
 # Voice Input Tray
 
-> 跨平台系統托盤語音輸入工具 - 支援離線辨識、騰訊雲 ASR 及 Google Gemini 多引擎語音辨識
+> 語音辨識輸入工具 — 可全本地、無雲端運行(適合企業或保密機關內部使用)，低延遲串流辨識 + SenseVoice 文字修正
 
 ## 專案狀態
 
-✅ **已發布 v0.3.0** - 新增 SenseVoice 離線語音辨識，首次啟動自動下載模型，無需 API 即可使用。
+✅ **已發布 v0.3.2** — 串流即時辨識 + SenseVoice 離線修正雙引擎協作，全程本地運行，無需網路。
 
 ## 為什麼使用這個程式
 
 與市面上其他語音輸入工具相比，Voice Input Tray 解決了三個核心痛點：
 
-### 1. 連續麥克風錄音，隨按隨講不吃字
-採用持續監聽技術，按下熱鍵的瞬間即可開始說話，完全沒有啟動延遲。同時，其他應用程式也能同時使用麥克風，不會有麥克風獨佔問題——您可以一邊通話、一邊使用語音輸入。
+### 1. 全本地運行，零隱私疑慮
+所有語音辨識都在本機完成，音訊不會上傳到任何伺服器。採用串流 Zipformer 即時辨識搭配 SenseVoice 離線修正的雙引擎架構，無需網路、無需 API 金鑰，下載模型後即可離線使用。
 
-### 2. 單鍵 CTRL，微秒級啟動，智能判斷使用意圖
+### 2. 串流 + 離線雙引擎協作，即時回饋零延遲
+獨創的串流-離線協作架構：
+- **串流引擎**（Zipformer）：按下熱鍵的瞬間即開始即時辨識，邊說邊顯示結果
+- **離線引擎**（SenseVoice）：放開熱鍵後，對完整音訊進行高精度辨識，自動替換串流結果
+- 串流引擎負責即時反饋，離線引擎負責最終品質，兩者無縫協作
+
+### 3. 單鍵 CTRL，智能判斷使用意圖
 只需按住 Ctrl 鍵即開始錄音，程式會自動判斷您的使用意圖：
 - 按下 Ctrl 後 2 秒內按其他鍵 → 自動取消，不影響 Ctrl+C、Ctrl+V 等快捷鍵
-- **支持並發錄音** - 在 ASR 處理期間可繼續錄音，結果按佇列順序依次貼上
-
-您再也不會看到「沒有錄到聲音」之類的訊息——從您按下的那一刻起，錄音就已經在進行了；即便取消錄音，也是安靜的處理，不會干擾使用者。
-
-### 3. 離線也能用，多引擎支援，AI 加持更智能
-內建 SenseVoice 離線辨識引擎，無需網路和 API 金鑰即可使用。同時支援騰訊雲 ASR 及 Google Gemini 雲端引擎，可自訂優先順序自動切換。Gemini 引擎利用多模態 AI 能力，自動添加標點符號並移除語氣詞，讓輸出更乾淨。
+- 過短的錄音（< 0.8 秒）自動丟棄，避免誤觸產生垃圾文字
+- 貼上後自動恢復原有剪貼簿內容，不影響使用者原有的複製貼上工作流
 
 ## 功能特色
 
-- **跨平台支援** - 支援 Windows、macOS、Linux
-- **多引擎 ASR** - 支援離線 SenseVoice、騰訊雲 ASR 及 Google Gemini 多模態語音辨識
-- **離線辨識** - 內建 SenseVoice 離線引擎，首次啟動自動下載模型，無需網路及 API 金鑰
-- **Gemini AI 增強** - 自動標點符號、移除語氣詞、支援多語言
-- **自動 Fallback** - 設定優先順序，前一引擎失敗自動嘗試下一個
-- **GUI 設置界面** - 友好的圖形設置窗口
-- **快捷鍵觸發** - 按住 Ctrl 鍵即可開始錄音，放開自動識別並貼上
-- **系統托盤運行** - 背景運行，不干擾日常工作流程
-- **繁簡轉換** - 自動根據系統地區轉換中文繁簡體（Gemini 可指定輸出語言）
-- **多語言 UI** - 支援繁體中文、简体中文、English 介面
-- **開機自啟** - 支援系統開機自動啟動功能
-- **並發錄音** - 在 ASR 處理期間可繼續錄音，結果按順序依次貼上
+- **全本地運行** — 串流 Zipformer + SenseVoice 雙引擎，全程離線，零隱私疑慮
+- **串流即時反饋** — 邊說邊顯示辨識結果，Overlay 浮動視窗即時呈現
+- **SenseVoice 品質修正** — 放開熱鍵後自動用高精度離線引擎替換串流結果
+- **離線辨識** — 無需網路及 API 金鑰，首次啟動自動下載模型
+- **多引擎 ASR** — 離線引擎（預設）、騰訊雲 ASR、Google Gemini，可自訂優先順序
+- **自動 Fallback** — 設定優先順序，前一引擎失敗自動嘗試下一個
+- **跨平台支援** — 支援 Windows、macOS、Linux
+- **快捷鍵觸發** — 按住 Ctrl 鍵即可開始錄音，放開自動辨識並貼上
+- **系統托盤運行** — 背景運行，不干擾日常工作流程
+- **繁簡轉換** — 自動根據系統地區轉換中文繁簡體，串流與最終結果皆適用
+- **多語言 UI** — 支援繁體中文、简体中文、English 介面
+- **開機自啟** — 支援系統開機自動啟動功能
+- **剪貼簿保護** — 貼上後自動恢復原有剪貼簿內容
 
 ## 支援的 ASR 引擎
 
-### SenseVoice 離線辨識（預設）
-- **SenseVoice-Small (INT8)** - 離線語音辨識，支援中英日韓粵語
-- 特色：無需網路、無需 API 金鑰、首次啟動自動下載模型（約 230MB）
+### 本地雙引擎（預設）
+- **串流 Zipformer**（即時）— 中英雙語串流辨識，邊說邊顯示
+- **SenseVoice-Small (INT8)**（離線修正）— 高精度離線辨識，支援中英日韓語
+- 特色：全程離線、零隱私疑慮、首次啟動自動下載模型
 - 模型儲存位置：`C:\ProgramData\VoiceInput\models\`（Windows）
 
-### Google Gemini
-- **gemini-2.5-flash** - 多模態 AI 語音辨識（推薦）
-- **gemini-2.5-flash-lite** - 輕量版，速度更快
-- 特色：自動標點符號、移除語氣詞、支援多語言
-- 憑證：Google AI Studio API Key
-- [取得 Gemini API Key](https://aistudio.google.com/apikey)
-
 ### 騰訊雲 ASR
-| 引擎代碼 | 說明 |
-|---------|------|
-| `16k_zh` | 普通話（預設） |
-| `16k_zh_video` | 普通話（視頻場景） |
-| `16k_en` | 英文 |
-| `16k_yue` | 粵語 |
-| `16k_ca` | 川渝方言 |
-- 憑證：騰訊雲 Secret ID / Secret Key
-- [取得騰訊雲 API 憑證](https://console.cloud.tencent.com/cam/capi)
+- **SentenceRecognition API** - 同步辨識
+- 支援引擎：16k_zh、16k_zh_video、16k_en、16k_yue、16k_ca
+- 需要：Secret ID + Secret Key
 
-## 系統需求
+### Google Gemini
+- **Multimodal generateContent API** - AI 加持語音辨識
+- 支援模型：gemini-2.5-flash、gemini-2.5-flash-lite
+- 自動標點符號、移除語氣詞、可指定輸出語言
+- 需要：API Key
 
-- **Windows**: Windows 10/11
-- **macOS**: macOS 10.15+ (Catalina 或更新版本)
-- **Linux**: 主流發行版 (Ubuntu、Fedora 等)
-- 麥克風設備
-- 約 230MB 磁碟空間（離線模型）
+## 快速開始
 
-## 下載與安裝
-
-### Windows 用戶
-
-前往 [Releases 頁面](https://github.com/ascetic168/Voice_Input_Tray/releases) 下載最新版本：
-
-雙擊安裝包完成安裝後，程式會自動啟動並在系統托盤顯示藍色麥克風圖示。
-
-### macOS / Linux 用戶
-
-目前需要自行編譯，請參考下方的「從原始碼編譯」章節。
-
-### 離線模式（無需設定）
-
-首次啟動時，程式會自動下載 SenseVoice 離線辨識模型（約 230MB）。下載完成後即可直接使用，無需任何 API 金鑰。
-
-如需使用雲端引擎以獲得更好的辨識效果，可參考以下步驟取得 API 憑證。
-
-### 取得 API 憑證
-
-#### Google Gemini API Key（推薦）
-
-1. 前往 [Google AI Studio](https://aistudio.google.com/)
-2. 登入 Google 帳號
-3. 點擊「Get API Key」取得金鑰
-
-#### 騰訊雲 API 憑證
-
-1. 前往 [騰訊雲官網](https://cloud.tencent.com/) 註冊帳號
-2. 完成實名認證
-3. 開通語音識別服務
-4. 前往 [雲 API 密鑰控制台](https://console.cloud.tencent.com/cam/capi) 建立 Secret ID / Secret Key
-
-> 💡 **提示**：如果不想進行中國大陸實名認證，可以使用 [騰訊雲國際版](https://www.tencentcloud.com/)，註冊流程更簡單。
-
-### 設置 API 憑證
-
-安裝完成後，右鍵點擊系統托盤中的藍色麥克風圖示，選擇「設置」，在設置窗口中輸入 API 憑證。
-
-也可使用環境變數：
-
-| 變數名稱 | 說明 |
-|---------|------|
-| `GEMINI_API_KEY` | Google Gemini API Key |
-| `TENCENTCLOUD_SECRET_ID` | 騰訊雲 Secret ID |
-| `TENCENTCLOUD_SECRET_KEY` | 騰訊雲 Secret Key |
-
-```powershell
-setx GEMINI_API_KEY "your_gemini_api_key"
-setx TENCENTCLOUD_SECRET_ID "your_secret_id"
-setx TENCENTCLOUD_SECRET_KEY "your_secret_key"
-```
-
-> **注意：** 設定環境變數後需要重新啟動程式才能生效。
-
-## 使用方法
-
-### 啟動程式
-
-安裝後程式會自動啟動。手動啟動方式：
-
-- **Windows**: 開始選單 → Voice Input Tray
-- 或雙擊安裝目錄中的執行檔
-
-程式啟動後會在系統托盤顯示藍色麥克風圖示。
-
-### 語音輸入操作
-
-1. 按住 **Ctrl** 鍵開始錄音（可立即說話）
-2. 說話
-3. 放開 **Ctrl** 鍵停止錄音
-4. 識別完成的文字會自動貼上到焦點視窗
-
-#### Ctrl 單鍵模式說明
-
-- **按下 Ctrl** → 立即開始錄音（可同時開始說話）
-- **在 2 秒內按其他鍵**（如 C、V）→ 自動取消錄音，不影響 Ctrl+C、Ctrl+V 等快捷鍵操作
-- **超過 2 秒放開 Ctrl** → 進行語音識別
-
-### 設置窗口
-
-通過設置窗口可以配置：
-
-- **Provider 優先順序** - 拖曳調整引擎優先順序，失敗自動 Fallback
-- **API 憑證** - 各引擎的 API 憑證輸入
-- **模型選擇** - 各引擎可選的模型
-- **繁簡轉換** - 自動檢測、強制正體、不轉換
-- **UI 語言** - 繁體中文、简体中文、English
-- **熱鍵** - Ctrl、Ctrl+Win、Ctrl+Shift 等
-
-## 開機自動啟動
-
-### Windows
-
-安裝包會自動創建開機自動啟動項。如需手動設置：
-
-**方法一：使用設置窗口（推薦）**
-1. 右鍵點擊托盤圖示，選擇「設置」
-2. 在「系統設置」中勾選「系統開機時載入執行」
-3. 點擊「保存設置」
-
-**方法二：手動設置**
-1. 按 `Win + R`，輸入 `shell:startup`
-2. 將程式捷徑移動到開啟的資料夾
-
-## 從原始碼編譯
-
-### 開發環境需求
-
-- Node.js 18+
-- Rust 1.70+
-- (Windows) Visual Studio C++ Build Tools
-- (macOS) Xcode Command Line Tools
-- (Linux) libwebkit2gtk-4.0-dev libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
-
-### 編譯步驟
+### 安裝
 
 ```bash
-# 克隆專案
-git clone https://github.com/ascetic168/Voice_Input_Tray.git
-cd Voice_Input_Tray
-
 # 安裝依賴
 npm install
 
-# 開發模式運行
+# 開發模式
 npm run tauri:dev
 
-# 構建發布版本
-npm run tauri build
+# 建置發布版本
+npm run tauri:build
 ```
 
-構建完成後，安裝包會在 `src-tauri/target/release/bundle/` 目錄中。
+### 首次啯動
 
-## 故障排除
+1. 啟動後自動開啟設定視窗
+2. 點擊「下載模型」按鈕，自動下載串流及離線辨識模型
+3. 下載完成後即可使用，無需設定 API 金鑰
 
-**Q: 程式無法啟動？**
-A: 請檢查 API 憑證是否正確設定。可通過設置窗口或環境變數設置。
+### 使用方式
 
-**Q: 無法錄音？**
-A: 請確認系統有可用的麥克風設備，且 Windows 設定 > 隱私權 > 麥克風已啟用。
+1. 按住 Ctrl 鍵開始說話（Overlay 浮動視窗即時顯示串流辨識結果）
+2. 放開 Ctrl 鍵，SenseVoice 自動進行高精度修正並替換結果
+3. 辨識結果自動貼上到當前應用程式
+4. 原有剪貼簿內容自動恢復
 
-**Q: Gemini 辨識結果不正確？**
-A: 確認已設定正確的 API Key，並在設置中選擇 gemini-2.5-flash 模型。
+## 技術架構
 
-**Q: 設定保存後重啟丟失？**
-A: v0.2.3 已修復設定持久化問題，請更新至最新版本。
+```
+使用者按下 Ctrl
+       ↓
+  ContinuousRecorder (cpal 持續錄音流，48kHz 立體聲)
+       ↓
+  音訊 chunks → 降混 mono → 降採樣 16kHz
+       ↓
+  ┌──────────────────────────────────────────┐
+  │          串流辨識線程 (Zipformer)         │
+  │  即時產生 partial text → Overlay 顯示     │
+  │  Endpoint 偵測 → 片段音訊送 SenseVoice   │
+  └──────────────────────────────────────────┘
+       ↓ (放開 Ctrl)
+  StreamingFinished → 剩餘音訊送 SenseVoice
+       ↓
+  ┌──────────────────────────────────────────┐
+  │        SenseVoice 修正線程 (離線)         │
+  │  高精度辨識 → 取代串流結果               │
+  └──────────────────────────────────────────┘
+       ↓
+  convert.rs (簡繁轉換，依系統地區)
+       ↓
+  clipboard.rs (保存原剪貼簿 → 設定文字 → Ctrl+V → 恢復剪貼簿)
+```
 
-**Q: 如何查看詳細執行訊息？**
-A: 啟動程式時加上 `--debug` 參數，debug log 會寫入 exe 同目錄的 `voice_input_debug.log`。
+## 開發指令
 
-## 版本資訊
+```bash
+# 安裝依賴
+npm install
 
-| 版本 | 發布日期 | 變更說明 |
-|------|----------|----------|
-| v0.3.0 | 2026-04-03 | 新增 SenseVoice 離線語音辨識，首次啟動自動下載模型，無需 API 即可使用 |
-| v0.2.3 | 2026-03-27 | 新增 Google Gemini 多模態語音辨識，修復設定持久化，修復 Provider 模型覆寫問題 |
-| v0.2.2 | 2026-03-26 | 並發錄音支援，修復 Ctrl+V 衝突，優化連續錄音體驗 |
-| v0.2.1 | 2026-03-25 | 修復視窗最大化狀態丟失問題 |
-| v0.2.0 | 2026-03-24 | Tauri v2 跨平台版本，GUI 設置界面，開機自啟功能 |
-| v0.1.0 | 2026-03-24 | Tauri v2 跨平台版本 |
-| v0.0.2 | 2026-03-23 | 優化貼上延遲，新增引擎選單切換功能 |
-| v0.0.1 | 2026-03-20 | 初始發布版本 |
+# 開發模式（熱重載前端 + Rust 即時編譯）
+npm run tauri:dev
+
+# 建置發布版本
+npm run tauri:build
+
+# 單獨建置前端
+npm run build
+
+# Debug 模式啟動（顯示控制台 log）
+voice-input-tray.exe --debug
+```
 
 ## 授權
 
-本軟體尚未開源，但可免費使用。
-版權所有 © 2026 朱國棟 (Charlie Chu)。
-
-未經授權，禁止複製、修改、散布或以任何形式使用本軟體及其相關文件。
-
----
-**聯絡信箱**：charliechu1688@gmail.com
+閉源軟體，免費使用。由朱國棟 (Charlie Chu) 開發。
