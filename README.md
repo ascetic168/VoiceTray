@@ -1,10 +1,12 @@
 # Voice Input Tray
 
+**[正體中文](README.md)** | **[简体中文](README.zh-CN.md)** | **[English](README.en.md)**
+
 > 語音辨識輸入工具 — 可全本地、無雲端運行(適合企業或保密機關內部使用)，低延遲串流辨識 + SenseVoice 文字修正
 
 ## 專案狀態
 
-✅ **已發布 v0.3.4** — 加入 Silero VAD 語音活動偵測，自動過濾靜音片段，消除辨識垃圾字符。
+✅ **已發布 v0.3.5** — 改進雙引擎協作邏輯，SenseVoice 現在會在語意完整的段落形成後就進行處理，大幅提升辨識品質。前端 Overlay 介面改用兩種顏色區分串流辨識的快速結果（黃色）與離線辨識的最終結果（藍色），使用體驗更清晰。
 
 ## 為什麼使用這個程式
 
@@ -68,16 +70,7 @@
 
 ### 安裝
 
-```bash
-# 安裝依賴
-npm install
-
-# 開發模式
-npm run tauri:dev
-
-# 建置發布版本
-npm run tauri:build
-```
+請至[Releases頁面](https://github.com/ascetic168/Voice_Input_Tray/releases)下載安裝檔。
 
 ### 首次啯動
 
