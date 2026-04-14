@@ -6,7 +6,7 @@
 
 ## Project Status
 
-✅ **Released v0.3.5** — Improved dual-engine collaboration: SenseVoice now processes segments as soon as semantically complete sentences form, significantly enhancing recognition quality. The overlay UI now uses two colors to distinguish streaming results (yellow) from offline final results (blue) for a clearer experience.
+✅ **Released v0.3.6** — Optimized recognition speed: removed the CT-Transformer punctuation model and now uses SenseVoice's built-in ITN to output punctuation directly, reducing additional inference latency for faster recognition.
 
 ## Why Use This Tool
 
@@ -32,9 +32,9 @@ Just hold the Ctrl key to start recording. The app automatically detects your in
 - **Fully Local** — Streaming Zipformer + SenseVoice dual-engine, entirely offline, zero privacy concerns
 - **Streaming Real-Time Feedback** — See recognition results as you speak via the overlay floating window
 - **SenseVoice Quality Correction** — Automatically replaces streaming results with high-accuracy offline engine output
-- **Automatic Punctuation** — CT-Transformer model adds punctuation marks (。, ? etc.) for more readable results
+- **SenseVoice Built-in Punctuation** — ITN enabled to output punctuation marks (。, ? etc.) directly, no extra model needed, faster recognition
 - **Voice Activity Detection** — Silero VAD filters out silent pauses, eliminating garbage characters (adjustable sensitivity)
-- **Offline Recognition** — No internet or API keys needed; models auto-download on first launch (including punctuation and VAD models)
+- **Offline Recognition** — No internet or API keys needed; models auto-download on first launch (including VAD model)
 - **China Mainland Mirror** — Auto-detects system language and uses hf-mirror.com for faster downloads in Simplified Chinese environments
 - **Multi-Engine ASR** — Local engine (default), Tencent Cloud ASR, Google Gemini — customizable priority order
 - **Auto Fallback** — Set priority order; if one engine fails, the next one is tried automatically
@@ -50,9 +50,8 @@ Just hold the Ctrl key to start recording. The app automatically detects your in
 
 ### Local Dual-Engine (Default)
 - **Streaming Zipformer** (real-time) — Bilingual Chinese-English streaming recognition, results shown as you speak
-- **SenseVoice-Small (INT8)** (offline correction) — High-accuracy offline recognition, supports Chinese, English, Japanese, and Korean
-- **CT-Transformer** (punctuation restoration) — Automatically adds punctuation marks for more readable results
-- Features: Fully offline, zero privacy concerns, auto-downloads models on first launch (including punctuation model)
+- **SenseVoice-Small (INT8)** (offline correction) — High-accuracy offline recognition, supports Chinese, English, Japanese, and Korean, with built-in ITN for direct punctuation output
+- Features: Fully offline, zero privacy concerns, auto-downloads models on first launch
 - Model storage location: `C:\ProgramData\VoiceInput\models\` (Windows)
 
 ### Tencent Cloud ASR
@@ -75,7 +74,7 @@ Download the installer from the [Releases page](https://github.com/ascetic168/Vo
 ### First Launch
 
 1. The settings window opens automatically on first launch
-2. Click the "Download Models" button to auto-download streaming, offline recognition, and punctuation models
+2. Click the "Download Models" button to auto-download streaming and offline recognition models
 3. Once downloaded, you're ready to go — no API key configuration needed
 
 ### Usage
@@ -116,7 +115,7 @@ User presses Ctrl
   │  streaming results                        │
   └──────────────────────────────────────────┘
        ↓
-  CT-Transformer punctuation restoration (auto-adds 。, ? etc.)
+  SenseVoice built-in ITN punctuation (auto-adds 。, ? etc.)
        ↓
   convert.rs (Simplified/Traditional conversion based on system locale)
        ↓
