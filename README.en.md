@@ -6,7 +6,7 @@
 
 ## Project Status
 
-✅ **Released v0.4.0** — New Listening Mode: double-tap right Ctrl to activate continuous listening and recognition until manually turned off.
+✅ **Released v0.4.1** — New Live Caption Mode: captures system audio output for real-time speech recognition, ideal for online meetings, videos, and audio recordings.
 
 ## Why Use This Tool
 
@@ -42,6 +42,7 @@ Just hold the Ctrl key to start recording. The app automatically detects your in
 - **Cross-Platform** — Supports Windows, macOS, and Linux
 - **Hotkey Trigger** — Hold Ctrl to start recording, release to auto-recognize and paste
 - **Listening Mode** — Double-tap right Ctrl to activate continuous listening and recognition until manually turned off
+- **Live Caption Mode** — Captures system audio output for real-time recognition, displayed as multi-line captions in the overlay, with auto-saved transcript on close
 - **System Tray** — Runs in the background without disrupting your workflow
 - **Simplified/Traditional Conversion** — Automatically converts Chinese text based on system locale, applies to both streaming and final results
 - **Multi-Language UI** — Supports 繁體中文, 简体中文, and English interface
