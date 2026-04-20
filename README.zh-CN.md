@@ -1,4 +1,4 @@
-# Voice Input Tray
+# VoiceTray
 
 **[正體中文](README.md)** | **[简体中文](README.zh-CN.md)** | **[English](README.en.md)**
 
@@ -10,7 +10,7 @@
 
 ## 为什么使用这个程序
 
-与市面上其他语音输入工具相比，Voice Input Tray 解决了三个核心痛点：
+与市面上其他语音输入工具相比，VoiceTray 解决了三个核心痛点：
 
 ### 1. 全本地运行，零隐私疑虑，无需 GPU
 所有语音识别都在本机完成，音频不会上传到任何服务器。采用串流 Zipformer 即时识别搭配 SenseVoice 离线修正的双引擎架构，**纯 CPU 即可流畅运行，无需独立显卡或 CUDA 环境**，无需网络、无需 API 密钥，下载模型后即可离线使用。
@@ -72,7 +72,7 @@
 
 ### 安装
 
-请至 [Releases 页面](https://github.com/ascetic168/Voice_Input_Tray/releases) 下载安装档。
+请至 [Releases 页面](https://github.com/ascetic168/VoiceTray/releases) 下载安装档。
 
 ### 首次启动
 

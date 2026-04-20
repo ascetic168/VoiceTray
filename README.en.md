@@ -1,4 +1,4 @@
-# Voice Input Tray
+# VoiceTray
 
 **[正體中文](README.md)** | **[简体中文](README.zh-CN.md)** | **[English](README.en.md)**
 
@@ -10,7 +10,7 @@
 
 ## Why Use This Tool
 
-Compared to other voice input tools on the market, Voice Input Tray solves three core pain points:
+Compared to other voice input tools on the market, VoiceTray solves three core pain points:
 
 ### 1. Fully Local, Zero Privacy Concerns, No GPU Required
 All speech recognition runs on your machine — audio is never uploaded to any server. It uses a dual-engine architecture combining streaming Zipformer for real-time recognition with SenseVoice for offline correction. **Runs smoothly on CPU alone — no dedicated GPU or CUDA required.** No internet connection or API keys required; just download the models and use it offline.
@@ -72,7 +72,7 @@ Just hold the Ctrl key to start recording. The app automatically detects your in
 
 ### Installation
 
-Download the installer from the [Releases page](https://github.com/ascetic168/Voice_Input_Tray/releases).
+Download the installer from the [Releases page](https://github.com/ascetic168/VoiceTray/releases).
 
 ### First Launch
 
