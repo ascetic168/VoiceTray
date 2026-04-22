@@ -6,7 +6,7 @@
 
 ## Project Status
 
-✅ **Released v0.4.4** — New Conference Mode (simultaneous microphone + system audio capture, dual overlay for both parties, auto-saved merged transcript), echo suppression, and multiple stability fixes.
+✅ **Released v0.4.5** — New AI Proofreading feature (auto-corrects ASR homophone errors, truncated sentences, and punctuation via LLM when closing caption/conference mode), supports Ollama / OpenAI / Zhipu and other backends.
 
 ## Why Use This Tool
 
