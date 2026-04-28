@@ -6,7 +6,7 @@
 
 ## Project Status
 
-✅ **Released v0.4.8** — Added speaker voiceprint management: dedicated window accessible from the tray menu for browsing (paginated), inline renaming, and deleting speaker profiles. Data sorted by creation time in descending order, with full trilingual UI support.
+✅ **Released v0.4.9** — Added AI meeting summary: auto-generates structured Markdown summaries (executive summary, attendees, discussion topics, key decisions, action items, key details) when a conference ends, using the same LLM endpoint as AI proofreading.
 
 ## Why Use This Tool
 
